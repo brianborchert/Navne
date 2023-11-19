@@ -24,81 +24,38 @@ namespace Navne.Controllers
         public string Get(String navn)
         {
             return WhatGenderIsIt(navn);
-
-            //if (erDetEnDreng(navn))
-            //{
-            //    return "Dreng";
-            //}
-            //else if (erDetEnPige(navn))
-            //{
-            //    return "Pige";
-            //}
-            //else if (erDetUnisex(navn))
-            //{
-            //    return "Unisex";
-            //}
-            //else
-            //{
-            //    return "Ukendt navn";
-            //}
         }
-
-        private Boolean erDetEnDreng(String navn)
-        {
-            return navn.Equals("Kristian");
-        }
-
-        private Boolean erDetEnPige(String navn)
-        {
-            // Skriv din egen kode her i stedet for min
-            return false;
-        }
-
-        private Boolean erDetUnisex(String navn)
-        {
-            // Skriv din egen kode her i stedet for min
-            return false;
-        }
-
-        //private String PrintSomething()
-        //{
-        //    List<List<string>> allLinesList = new List<List<string>>();
-        //    using (var reader = new StreamReader(@"wwwroot\navne-d.csv"))
-        //    {
-        //        while (!reader.EndOfStream)
-        //        {
-        //            var line = reader.ReadLine();
-        //            var values = line.Split(';');
-
-        //            List<string> oneLineList = new List<string>();
-        //            oneLineList.Add(values[0]);
-        //            oneLineList.Add(values[1]);
-        //            oneLineList.Add(values[2]);
-
-        //            allLinesList.Add(oneLineList);
-        //        }
-        //    }
-
-        //    return allLinesList[0][0] + "-" + allLinesList[0][1] + "-" + allLinesList[0][2];
-
-        //    //return "Hello";
-        //}
 
         private string WhatGenderIsIt(String navn)
         {
-            List<List<string>> allLinesList = AllLinesList();
-            string response = "";
+            string response = "Navnet '" + navn + "' er et ";
+            bool nameFound = false;
+            bool boy = false;
+            bool girl = false;
 
+            List<List<string>> allLinesList = AllLinesList();
             foreach (List<string> line in allLinesList)
             {
                 if (line[0] == navn)
                 {
-                    response += "\nDreng: " + line[1] + " - " + "Pige: " + line[2];
+                    nameFound = true;
+                    if (line[1] == "Ja") boy = true;
+                    if (line[2] == "Ja") girl = true;
                 }
             }
-            return response;
 
-            //return allLinesList[0][0] + "-" + allLinesList[0][1] + "-" + allLinesList[0][2];
+            if (nameFound)
+            {
+                if (boy && girl) response += "unisexnavn";
+                else if (boy) response += "drengenavn";
+                else if (girl) response += "pigenavn";
+            }
+            else
+            {
+                response += "ukendt navn";
+            }
+
+            return response;
         }
 
         private List<List<string>> AllLinesList()
