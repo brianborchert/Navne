@@ -70,7 +70,7 @@ namespace Navne.Controllers
 
             foreach (string path in paths)
             {
-                using (var reader = new StreamReader(path, Encoding.Default))
+                using (var reader = new StreamReader(path, Encoding.UTF8))
                 {
                     while (!reader.EndOfStream)
                     {
